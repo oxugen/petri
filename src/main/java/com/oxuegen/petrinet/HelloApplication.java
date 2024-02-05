@@ -114,11 +114,13 @@ public class HelloApplication extends Application {
 
         // Добавляем элементы на панель
         root.getChildren().addAll(ordersQueue, assemblyStage, paintingStage,
-                testingStage, finishedProducts, parallelPaintingStage, parallelTestingStage);
-        root.getChildren().addAll(startAssembly, startPainting, startTesting, parallelPaintingTransition, parallelTestingTransition, endProduction);
+                testingStage, finishedProducts);
+                //, parallelPaintingStage, parallelTestingStage);
+        root.getChildren().addAll(startAssembly, startPainting, startTesting, endProduction);
+        // parallelPaintingTransition, parallelTestingTransition
         root.getChildren().addAll(arrow1, arrowToAssembly, arrowToPainting, arrowToTesting,
-                arrowFromAssembly, arrowFromPainting, arrowFromTesting, arrowToFinished
-                , arrowToParallelPainting, arrowToParallelTesting);
+                arrowFromAssembly, arrowFromPainting, arrowFromTesting, arrowToFinished);
+                //, arrowToParallelPainting, arrowToParallelTesting);
 
         // Добавляем подписи
         root.getChildren().addAll(getTexts(ordersQueue, assemblyStage, paintingStage, testingStage, finishedProducts));
