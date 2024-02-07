@@ -1,22 +1,38 @@
-package com.oxuegen.petrinet;
+package com.example.petrinet;
 
+import com.example.petrinet.petries.PetriNet;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import java.io.IOException;
+import javafx.scene.control.TextField;
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.stream.ProxyPipe;
+import org.graphstream.stream.Source;
+import org.graphstream.ui.graphicGraph.GraphicGraph;
+import org.graphstream.ui.view.GraphRenderer;
+import org.graphstream.ui.view.View;
+import org.graphstream.ui.view.Viewer;
+import org.graphstream.ui.view.ViewerListener;
+import javafx.scene.control.ComboBox;
 
 public class HelloApplication extends Application {
+
+
     private Circle ordersQueue;
     private Circle assemblyStage;
     private Circle paintingStage;
@@ -42,7 +58,6 @@ public class HelloApplication extends Application {
     private Text messageText;
     private int currentStageIndex = 0; // Индекс текущего этапа
 
-    private boolean isProcessing = false;
     private Color[] originalColors;
     private double[] originalRadius;
     private int availableWorkers = 1; // Количество доступных рабочих
@@ -115,12 +130,12 @@ public class HelloApplication extends Application {
         // Добавляем элементы на панель
         root.getChildren().addAll(ordersQueue, assemblyStage, paintingStage,
                 testingStage, finishedProducts);
-                //, parallelPaintingStage, parallelTestingStage);
+        //, parallelPaintingStage, parallelTestingStage);
         root.getChildren().addAll(startAssembly, startPainting, startTesting, endProduction);
         // parallelPaintingTransition, parallelTestingTransition
         root.getChildren().addAll(arrow1, arrowToAssembly, arrowToPainting, arrowToTesting,
                 arrowFromAssembly, arrowFromPainting, arrowFromTesting, arrowToFinished);
-                //, arrowToParallelPainting, arrowToParallelTesting);
+        //, arrowToParallelPainting, arrowToParallelTesting);
 
         // Добавляем подписи
         root.getChildren().addAll(getTexts(ordersQueue, assemblyStage, paintingStage, testingStage, finishedProducts));
@@ -137,19 +152,19 @@ public class HelloApplication extends Application {
         root.getChildren().addAll(resourceTexts[0], resourceTexts[1], resourceTexts[2], messageText);
 
         // Добавляем поля для пользовательского ввода
-        TextField workersInput = createTextField(1200, 120, "Enter Workers:");
-        TextField assemblyTimeInput = createTextField(1200, 150, "Enter Assembly Time:");
-        TextField paintingTimeInput = createTextField(1200, 180, "Enter Painting Time:");
+        TextField workersInput = createTextField(1200, 100, "Enter Workers:");
+        TextField assemblyTimeInput = createTextField(1200, 125, "Enter Assembly Time:");
+        TextField paintingTimeInput = createTextField(1200, 150, "Enter Painting Time:");
 
         // Комбо-бокс для выбора времени тестирования
         Label testingTimeLabel = new Label("Select Testing Time:");
-        ComboBox<Integer> testingTimeComboBox = createComboBox(1200, 210, new Integer[]{1, 2, 3, 4, 5});
+        ComboBox<Integer> testingTimeComboBox = createComboBox(1200, 175, new Integer[]{1, 2, 3, 4, 5});
         testingTimeComboBox.setValue(testingTime);
 
         // Кнопка для симуляции изменения состояний
         Button simulateButton = new Button("Simulate Production");
         simulateButton.setLayoutX(1200);
-        simulateButton.setLayoutY(250);
+        simulateButton.setLayoutY(200);
         simulateButton.setOnAction(event -> simulateProduction(workersInput, assemblyTimeInput, paintingTimeInput, testingTimeComboBox));
 
         // Добавляем все элементы на панель
